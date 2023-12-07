@@ -1,3 +1,7 @@
+// Summary
+// 1. Ability
+// 2. Capability
+// 3. Hot potato (ex: Flash loans)
 module startrek_poap::poap {
 
     use std::string::String;
@@ -81,6 +85,7 @@ module startrek_poap::poap {
         treasury: &mut Treasury,
         coin: Coin<STARTREK>,
         name: String,
+        to: address,
         ctx: &mut TxContext,
     ) {
         let coin_value = coin::value(&coin);
@@ -90,8 +95,7 @@ module startrek_poap::poap {
             id: object::new(ctx),
             name,
         };
-        let buyer = tx_context::sender(ctx);
-        transfer::transfer(poap, buyer);
+        transfer::transfer(poap, to);
         coin::put(&mut treasury.balance, coin);
     }
 
